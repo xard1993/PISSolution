@@ -1,0 +1,68 @@
+<div>
+  <h1>Property List</h1>
+  <input type="text" [(ngModel)]="search" placeholder="Search" />
+  <button (click)="onSearch()">Search</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Property Name</th>
+        <th>Address</th>
+        <th>Price</th>
+        <th>Date of Registration</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let property of properties">
+        <td>{{ property.propertyName }}</td>
+        <td>{{ property.address }}</td>
+        <td>{{ property.price }}</td>
+        <td>{{ property.dateOfRegistration | date }}</td>
+        <td>
+          <a [routerLink]="['/properties/edit', property.id]">Edit</a>
+          <a [routerLink]="['/properties/delete', property.id]">Delete</a>
+        </td>
+      </tr>
+      <tr *ngFor="let property of properties">
+        <td colspan="5">
+          <h3>Ownerships</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Effective From</th>
+                <th>Effective Till</th>
+                <th>Acquisition Price</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ownership of property.ownerships">
+                <td>{{ ownership.effectiveFrom | date }}</td>
+                <td>{{ ownership.effectiveTill | date }}</td>
+                <td>{{ ownership.acquisitionPrice }}</td>
+                <td>{{ ownership.contactID }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Price Histories</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Price</th>
+                <th>Date Changed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let priceHistory of property.priceHistories">
+                <td>{{ priceHistory.price }}</td>
+                <td>{{ priceHistory.dateChanged | date }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>

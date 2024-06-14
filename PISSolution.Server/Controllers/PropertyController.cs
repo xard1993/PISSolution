@@ -34,6 +34,7 @@ namespace PISSolution.Controllers
             }
 
             var properties = await _propertyRepository.GetAllAsync(pageNumber, pageSize, filter);
+          
             return Ok(properties);
         }
 

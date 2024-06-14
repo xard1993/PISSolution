@@ -1,17 +1,39 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms'; 
+import { HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ContactListComponent } from './contact-list/contact-list.component';
+import { ContactCreateComponent } from './contact-create/contact-create.component';
+import { ContactEditComponent } from './contact-edit/contact-edit.component';
+import { ContactDeleteComponent } from './contact-delete/contact-delete.component';
+import { PropertyListComponent } from './property-list/property-list.component';
+import { PropertyCreateComponent } from './property-create/property-create.component';
+import { PropertyEditComponent } from './property-edit/property-edit.component';
+import { PropertyDeleteComponent } from './property-delete/property-delete.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ContactListComponent,
+    ContactCreateComponent,
+    ContactEditComponent,
+    ContactDeleteComponent,
+    PropertyListComponent,
+    PropertyCreateComponent,
+    PropertyEditComponent,
+    PropertyDeleteComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule,
-    AppRoutingModule
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    NgxPaginationModule,
+    AppRoutingModule,
+ 
   ],
   providers: [],
   bootstrap: [AppComponent]
