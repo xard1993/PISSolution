@@ -5,6 +5,8 @@ import { PropertyService } from '../property.service';
 
 
 
+
+
 @Component({
   selector: 'app-property-create',
   templateUrl: './property-create.component.html',

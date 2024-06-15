@@ -42,6 +42,7 @@ namespace PISSolution.Repositories.Implementations
         public async Task AddRangeAsync(IEnumerable<T> entity)
         {
             await _dbSet.AddRangeAsync(entity);
+            await _context.SaveChangesAsync();
         }
         public async Task UpdateAsync(T entity)
         {

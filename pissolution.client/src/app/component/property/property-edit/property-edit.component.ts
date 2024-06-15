@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from '../property.service';
 
 
+
+
 @Component({
   selector: 'app-property-edit',
   templateUrl: './property-edit.component.html',

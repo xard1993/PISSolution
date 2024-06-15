@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PropertyService } from '../property.service';
-import { Property } from '../model/property';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PropertyService } from '../property.service';
+import { Property } from '../../../model/property';
+
 
 @Component({
   selector: 'app-property-list',

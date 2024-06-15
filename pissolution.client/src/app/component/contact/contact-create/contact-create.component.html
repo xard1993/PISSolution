@@ -1,0 +1,22 @@
+<div>
+  <h1>Create Contact</h1>
+  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input id="firstName" formControlName="firstName">
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input id="lastName" formControlName="lastName">
+    </div>
+    <div>
+      <label for="phoneNumber">Phone Number:</label>
+      <input id="phoneNumber" formControlName="phoneNumber">
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email">
+    </div>
+    <button type="submit">Create Contact</button>
+  </form>
+</div>

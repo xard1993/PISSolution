@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PISSolution.Data;
 using PISSolution.Models;
+using PISSolution.Repositories.Implementations;
 using PISSolution.Repositories.Interfaces;
 
 namespace PISSolution.Controllers
@@ -20,25 +21,27 @@ namespace PISSolution.Controllers
         }
 
         // GET: api/Contact
-        [HttpGet("All")]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(
-         int pageNumber = 1,
-         int pageSize = 10,
-        string search = null)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(int pageNumber = 1, int pageSize = 10,string search = null)
         {
-            Func<IQueryable<Contact>, IQueryable<Contact>> filter = null;
+            var query = await _contactRepository.GetAllContactsAsync(pageNumber, pageSize, search);
 
-            if (!string.IsNullOrEmpty(search))
+
+
+            var totalCount = query.Count();
+            var items = query.ToArray<Contact>();
+
+            var response = new
             {
-                filter = query => query.Where(c => c.Email.Contains(search) || c.FirstName.Contains(search) || c.LastName.Contains(search) || c.PhoneNumber.Contains(search));
-            }
+                items,
+                totalCount
+            };
 
-            var contacts = await _contactRepository.GetAllAsync(pageNumber, pageSize, filter);
-            return Ok(contacts);
+            return Ok(response);
         }
 
         // GET: api/Contact/5
-        [HttpGet("GetContact/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContact(Guid id)
         {
             var Contact = await _contactRepository.GetByIdAsync(id);
@@ -51,12 +54,13 @@ namespace PISSolution.Controllers
             return Ok(Contact);
         }
 
-        // POST: api/Contact/single
-        [HttpPost("single")]
-        public async Task<ActionResult<Contact>> PostSingleContact(Contact Contact)
+        // POST: api/Contact
+        [HttpPost]
+        public async Task<ActionResult<Contact>> PostSingleContact(Contact contact)
         {
-            await _contactRepository.AddAsync(Contact);
-            return CreatedAtAction(nameof(GetContact), new { id = Contact.ID }, Contact);
+            contact.ID = Guid.NewGuid();
+            await _contactRepository.AddAsync(contact);
+            return CreatedAtAction(nameof(GetContact), new { id = contact.ID }, contact);
         }
 
         // POST: api/Contact/multiple
