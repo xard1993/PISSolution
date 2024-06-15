@@ -17,32 +17,33 @@ namespace PISSolution.Controllers
         public PropertyController(IPropertyRepository propertyRepository)
         {
             _propertyRepository = propertyRepository;
+
         }
 
         // GET: api/Property
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Property>>> GetProperties(
-         int pageNumber = 1,
-         int pageSize = 10,
-        string search = null)
+        public async Task<IActionResult> GetProperties([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = null)
         {
-            Func<IQueryable<Property>, IQueryable<Property>> filter = null;
+            var query = await _propertyRepository.GetAllPropertiesAsync(pageIndex, pageSize, search);
 
-            if (!string.IsNullOrEmpty(search))
+
+
+            var totalCount = query.Count();
+            var items = query.ToArray<Property>();
+
+            var response = new
             {
-                filter = query => query.Where(c => c.Address.Contains(search) || c.PropertyName.Contains(search));
-            }
+                items,
+                totalCount
+            };
 
-            var properties = await _propertyRepository.GetAllAsync(pageNumber, pageSize, filter);
-          
-            return Ok(properties);
+            return Ok(response);
         }
-
         // GET: api/Property/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Property>> GetProperty(Guid id)
         {
-            var property = await _propertyRepository.GetByIdAsync(id);
+            var property = await _propertyRepository.GetPropertyByIdAsync(id);
 
             if (property == null)
             {
@@ -52,10 +53,11 @@ namespace PISSolution.Controllers
             return Ok(property);
         }
 
-        // POST: api/Property/single
-        [HttpPost("single")]
+        // POST: api/Property/
+        [HttpPost]
         public async Task<ActionResult<Property>> PostSingleProperty(Property property)
         {
+            property.ID = Guid.NewGuid();
             await _propertyRepository.AddAsync(property);
             return CreatedAtAction(nameof(GetProperty), new { id = property.ID }, property);
         }
@@ -71,9 +73,9 @@ namespace PISSolution.Controllers
 
         // PUT: api/Property/5
         [HttpPut]
-        public async Task<IActionResult> PutProperty( [FromBody] Property property)
+        public async Task<IActionResult> PutProperty([FromBody] Property property)
         {
-            
+
 
             await _propertyRepository.UpdateAsync(property);
             return NoContent();
@@ -83,10 +85,13 @@ namespace PISSolution.Controllers
         [HttpPut("multiple")]
         public async Task<IActionResult> PutMultipleProperties([FromBody] IEnumerable<Property> properties)
         {
-          
+
             await _propertyRepository.UpdateRangeAsync(properties);
             return NoContent();
+
         }
+
+     
 
     }
 }

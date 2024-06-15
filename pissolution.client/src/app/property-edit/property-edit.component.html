@@ -1,1 +1,24 @@
-<p>property-edit works!</p>
+<div>
+  <h1>Edit Property</h1>
+  <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+    <!-- Property Details -->
+    <div>
+      <label for="propertyName">Property Name:</label>
+      <input id="propertyName" formControlName="propertyName">
+    </div>
+    <div>
+      <label for="address">Address:</label>
+      <input id="address" formControlName="address">
+    </div>
+    <div>
+      <label for="price">Price:</label>
+      <input id="price" formControlName="price" type="number">
+    </div>
+    <div>
+      <label for="dateOfRegistration">Date of Registration:</label>
+      <input id="dateOfRegistration" formControlName="dateOfRegistration" type="date">
+    </div>
+
+    <button type="submit">Update Property</button>
+  </form>
+</div>

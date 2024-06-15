@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -13,7 +13,6 @@ import { ContactDeleteComponent } from './contact-delete/contact-delete.componen
 import { PropertyListComponent } from './property-list/property-list.component';
 import { PropertyCreateComponent } from './property-create/property-create.component';
 import { PropertyEditComponent } from './property-edit/property-edit.component';
-import { PropertyDeleteComponent } from './property-delete/property-delete.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,7 @@ import { PropertyDeleteComponent } from './property-delete/property-delete.compo
     PropertyListComponent,
     PropertyCreateComponent,
     PropertyEditComponent,
-    PropertyDeleteComponent
+
   ],
   imports: [
     BrowserModule,
@@ -33,7 +32,7 @@ import { PropertyDeleteComponent } from './property-delete/property-delete.compo
     HttpClientModule,
     NgxPaginationModule,
     AppRoutingModule,
- 
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

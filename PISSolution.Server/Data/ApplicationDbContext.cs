@@ -25,7 +25,7 @@ namespace PISSolution.Data
             DataSeeder.SeedPriceHistories(modelBuilder);
             DataSeeder.SeedOwnerships(modelBuilder);
             modelBuilder.Entity<Property>()
-               .HasMany(p => p.Ownerships)
+               .HasMany(p => p.Ownerships)               
                .WithOne(o => o.Property)
                .HasForeignKey(o => o.PropertyID);
 

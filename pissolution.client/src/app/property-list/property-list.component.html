@@ -2,6 +2,7 @@
   <h1>Property List</h1>
   <input type="text" [(ngModel)]="search" placeholder="Search" />
   <button (click)="onSearch()">Search</button>
+
   <table>
     <thead>
       <tr>
@@ -19,50 +20,40 @@
         <td>{{ property.price }}</td>
         <td>{{ property.dateOfRegistration | date }}</td>
         <td>
-          <a [routerLink]="['/properties/edit', property.id]">Edit</a>
-          <a [routerLink]="['/properties/delete', property.id]">Delete</a>
-        </td>
-      </tr>
-      <tr *ngFor="let property of properties">
-        <td colspan="5">
-          <h3>Ownerships</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Effective From</th>
-                <th>Effective Till</th>
-                <th>Acquisition Price</th>
-                <th>Contact</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ownership of property.ownerships">
-                <td>{{ ownership.effectiveFrom | date }}</td>
-                <td>{{ ownership.effectiveTill | date }}</td>
-                <td>{{ ownership.acquisitionPrice }}</td>
-                <td>{{ ownership.contactID }}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h3>Price Histories</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Price</th>
-                <th>Date Changed</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let priceHistory of property.priceHistories">
-                <td>{{ priceHistory.price }}</td>
-                <td>{{ priceHistory.dateChanged | date }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <button (click)="editProperty(property)">Edit</button>
+ 
+          <button (click)="selectProperty(property)">Show Details</button>
         </td>
       </tr>
     </tbody>
   </table>
   <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+
+  <div *ngIf="selectedProperty">
+    <h2>Property Details: {{ selectedProperty.propertyName }}</h2>
+
+    <h3>Ownerships</h3>
+    <div *ngIf="selectedProperty.ownerships && selectedProperty.ownerships.length > 0; else noOwnerships">
+      <div *ngFor="let ownership of selectedProperty.ownerships">
+        <p><strong>Owner:</strong> {{ ownership.contact.firstName }} {{ ownership.contact.lastName }}</p>
+        <p><strong>Effective From:</strong> {{ ownership.effectiveFrom | date }}</p>
+        <p><strong>Effective Till:</strong> {{ ownership.effectiveTill | date }}</p>
+        <p><strong>Acquisition Price:</strong> {{ ownership.acquisitionPrice }}</p>
+      </div>
+    </div>
+    <ng-template #noOwnerships>
+      <p>No ownership records available.</p>
+    </ng-template>
+
+    <h3>Price Histories</h3>
+    <div *ngIf="selectedProperty.priceHistories && selectedProperty.priceHistories.length > 0; else noPriceHistories">
+      <div *ngFor="let priceHistory of selectedProperty.priceHistories">
+        <p><strong>Price:</strong> {{ priceHistory.price }}</p>
+        <p><strong>Date Changed:</strong> {{ priceHistory.date | date }}</p>
+      </div>
+    </div>
+    <ng-template #noPriceHistories>
+      <p>No price history records available.</p>
+    </ng-template>
+  </div>
 </div>

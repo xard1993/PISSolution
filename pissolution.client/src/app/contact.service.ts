@@ -2,15 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment.development';
+import { Contact } from './model/contact';
 
-export interface Contact {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  ownerships: any[];
-}
 
 @Injectable({
   providedIn: 'root'
