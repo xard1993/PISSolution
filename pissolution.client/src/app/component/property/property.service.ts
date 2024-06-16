@@ -17,6 +17,7 @@ export class PropertyService {
 
   constructor(private http: HttpClient) { }
 
+  //calling get all properties api and maps to component model
   getProperties(pageIndex: number, pageSize: number, search: string): Observable<{ items: Property[], totalCount: number }> {
     let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
@@ -39,6 +40,7 @@ export class PropertyService {
       );
   }
 
+  //call the get property by id
   getProperty(id: string): Observable<Property> {
     return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
@@ -46,18 +48,20 @@ export class PropertyService {
       );
   }
 
+  //post property
   createProperty(property: Property): Observable<Property> {
     return this.http.post<Property>(this.apiUrl, property);
   }
-
+  //put property
   updateProperty(id: string, property: Property): Observable<Property> {
     return this.http.put<Property>(`${this.apiUrl}/`, property);
   }
-
+  //delete property
   deleteProperty(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  // actualy mapping method to map api data to component model
   private mapProperty(item: any): Property {
     return {
       id: item.id,
@@ -65,12 +69,12 @@ export class PropertyService {
       address: item.address,
       price: item.price,
       dateOfRegistration: new Date(item.dateOfRegistration),
-      ownerships: item.ownerships.$values.length != 0 ? item.ownerships.$values.map((ownership: Ownership) => ({
+      ownerships: item.ownerships.length !== 0 ? item.ownerships.$values.map((ownership: Ownership) => ({
         id: ownership.id,
         contactID: ownership.contactID,
         propertyID: ownership.propertyID,
         effectiveFrom: new Date(ownership.effectiveFrom),
-        effectiveTill: new Date(ownership.effectiveTill),
+        effectiveTill: ownership.effectiveTill,
         acquisitionPrice: ownership.acquisitionPrice,
         contact: ownership.contact ? {
           id: ownership.contact.id,

@@ -13,6 +13,7 @@ export class ContactService {
 
   constructor(private http: HttpClient) { }
 
+  //consumes api to load all contacts
   getContacts(pageIndex: number, pageSize: number, search: string): Observable<{ items: Contact[], totalCount: number }> {
     let params = new HttpParams()
       .set('pageIndex', pageIndex.toString())
@@ -35,18 +36,21 @@ export class ContactService {
       );
   }
 
-
+  //get 1 contact by id
   getContact(id: string): Observable<Contact> {
     return this.http.get<Contact>(`${this.apiUrl}/${id}`);
   }
 
+  // post contact
   createContact(contact: Contact): Observable<Contact> {
     return this.http.post<Contact>(`${this.apiUrl}`, contact);
   }
-
+  // put contact
   updateContact(contact: Contact): Observable<Contact> {
     return this.http.put<Contact>(`${this.apiUrl}`, contact);
   }
+
+  //maps api info to contact model
   private mapContact(item: any): Contact {
     return {
       id: item.id,

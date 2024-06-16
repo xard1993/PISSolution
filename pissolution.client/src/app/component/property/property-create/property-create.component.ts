@@ -37,10 +37,8 @@ export class PropertyCreateComponent implements OnInit {
   get ownerships(): FormArray {
     return this.propertyForm.get('ownerships') as FormArray;
   }
-
-
-
   
+  //on submit, the property will be sent to the post api for creation
   onSubmit(): void {
     if (this.propertyForm.valid) {
       this.propertyService.createProperty(this.propertyForm.value).subscribe(response => {

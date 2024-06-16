@@ -35,12 +35,13 @@ export class PropertyEditComponent implements OnInit {
     this.loadProperty();
   }
 
+  //load property from api response into the comp
   loadProperty(): void {
     this.propertyService.getProperty(this.propertyId).subscribe(property => {
       this.propertyForm.patchValue(property);
     });
   }
-
+  // On sibmit edit property
   onSubmit(): void {
     if (this.propertyForm.valid) {
       this.propertyService.updateProperty(this.propertyId, this.propertyForm.value).subscribe(response => {

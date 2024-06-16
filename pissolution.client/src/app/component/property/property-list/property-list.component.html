@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody class="property-info">
-      <tr *ngFor="let property of properties">
+      <tr *ngFor="let property of properties | paginate: { itemsPerPage: pageSize, currentPage: pageIndex }">
         <td>
           {{ property.propertyName }}
           <br />
@@ -47,12 +47,12 @@
 
           <button (click)="editProperty(property)">Edit</button>
 
-          <button (click)="selectProperty(property)">Show Details</button>
+       <button (click)="selectProperty(property)">Show Details</button>
         </td>
       </tr>
     </tbody>
   </table>
-  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  <pagination-controls class="pager" (pageChange)="onPageChange($event)"></pagination-controls>
 
   <div *ngIf="selectedProperty">
     <!-- Container for headers -->

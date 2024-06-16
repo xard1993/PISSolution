@@ -21,21 +21,24 @@ export class ContactListComponent implements OnInit {
     this.loadContacts();
   }
 
+  //loads contacts into contact component
   loadContacts(): void {
     this.contactService.getContacts(this.pageIndex, this.pageSize, this.search).subscribe(response => {
       this.contacts = response.items;
       this.totalCount = response.totalCount;
     });
   }
+  //Search method
   onSearch(): void {
     this.pageIndex = 1; // Reset to first page on new search
     this.loadContacts();
   }
-
+  //pager on change method
   onPageChange(newPage: number): void {
     this.pageIndex = newPage;
     this.loadContacts();
   }
+  //route comp to edit component using id as param
   editContact(contact: Contact): void {
     this.router.navigate(['/contacts/edit', contact.id]);
   }

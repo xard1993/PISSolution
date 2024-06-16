@@ -20,10 +20,12 @@ namespace PISSolution.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // seeding model
             DataSeeder.SeedContacts(modelBuilder);
             DataSeeder.SeedProperties(modelBuilder);
             DataSeeder.SeedPriceHistories(modelBuilder);
             DataSeeder.SeedOwnerships(modelBuilder);
+            //relationships
             modelBuilder.Entity<Property>()
                .HasMany(p => p.Ownerships)               
                .WithOne(o => o.Property)
@@ -38,10 +40,8 @@ namespace PISSolution.Data
                 .HasMany(c => c.Ownerships)
                 .WithOne(o => o.Contact)
                 .HasForeignKey(o => o.ContactID);
-
-            base.OnModelCreating(modelBuilder);
-
-           
+            
+            base.OnModelCreating(modelBuilder);           
            
             
         }

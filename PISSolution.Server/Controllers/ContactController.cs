@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PISSolution.Data;
@@ -14,19 +15,19 @@ namespace PISSolution.Controllers
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
+        private readonly ILogger<Repository<Contact>> _logger;
 
-        public ContactController(IContactRepository contractRepository)
+        public ContactController(IContactRepository contractRepository, ILogger<Repository<Contact>> logger)
         {
             _contactRepository = contractRepository;
+            _logger = logger;
         }
 
         // GET: api/Contact
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(int pageNumber = 1, int pageSize = 10,string search = null)
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(int pageNumber = 1, int pageSize = 10, string search = null)
         {
             var query = await _contactRepository.GetAllContactsAsync(pageNumber, pageSize, search);
-
-
 
             var totalCount = query.Count();
             var items = query.ToArray<Contact>();
@@ -38,58 +39,60 @@ namespace PISSolution.Controllers
             };
 
             return Ok(response);
-        }
 
-        // GET: api/Contact/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Contact>> GetContact(Guid id)
+        }
+    
+
+    // GET: api/Contact/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Contact>> GetContact(Guid id)
+    {
+        var Contact = await _contactRepository.GetByIdAsync(id);
+
+        if (Contact == null)
         {
-            var Contact = await _contactRepository.GetByIdAsync(id);
-
-            if (Contact == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(Contact);
+            return NotFound();
         }
 
-        // POST: api/Contact
-        [HttpPost]
-        public async Task<ActionResult<Contact>> PostSingleContact(Contact contact)
-        {
-            contact.ID = Guid.NewGuid();
-            await _contactRepository.AddAsync(contact);
-            return CreatedAtAction(nameof(GetContact), new { id = contact.ID }, contact);
-        }
-
-        // POST: api/Contact/multiple
-        [HttpPost("multiple")]
-        public async Task<ActionResult<Contact>> PostMultipleContacts(IEnumerable<Contact> contacts)
-        {
-            await _contactRepository.AddRangeAsync(contacts);
-            return Ok();
-        }
-
-
-        // PUT: api/Contact/5
-        [HttpPut]
-        public async Task<IActionResult> PutContact( [FromBody] Contact Contact)
-        {
-            
-
-            await _contactRepository.UpdateAsync(Contact);
-            return NoContent();
-        }
-
-        // PUT: api/Contact/multiple
-        [HttpPut("multiple")]
-        public async Task<IActionResult> PutMultipleContacts([FromBody] IEnumerable<Contact> contacts)
-        {
-          
-            await _contactRepository.UpdateRangeAsync(contacts);
-            return NoContent();
-        }
-
+        return Ok(Contact);
     }
+
+    // POST: api/Contact
+    [HttpPost]
+    public async Task<ActionResult<Contact>> PostSingleContact(Contact contact)
+    {
+        contact.ID = Guid.NewGuid();
+        await _contactRepository.AddAsync(contact);
+        return CreatedAtAction(nameof(GetContact), new { id = contact.ID }, contact);
+    }
+
+    // POST: api/Contact/multiple
+    [HttpPost("multiple")]
+    public async Task<ActionResult<Contact>> PostMultipleContacts(IEnumerable<Contact> contacts)
+    {
+        await _contactRepository.AddRangeAsync(contacts);
+        return Ok();
+    }
+
+
+    // PUT: api/Contact
+    [HttpPut]
+    public async Task<IActionResult> PutContact([FromBody] Contact Contact)
+    {
+
+
+        await _contactRepository.UpdateAsync(Contact);
+        return NoContent();
+    }
+
+    // PUT: api/Contact/multiple
+    [HttpPut("multiple")]
+    public async Task<IActionResult> PutMultipleContacts([FromBody] IEnumerable<Contact> contacts)
+    {
+
+        await _contactRepository.UpdateRangeAsync(contacts);
+        return NoContent();
+    }
+
+}
 }

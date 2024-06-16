@@ -34,12 +34,13 @@ export class ContactEditComponent implements OnInit {
     this.loadContact();
   }
 
+  //loading contact for edit
   loadContact(): void {
     this.contactService.getContact(this.contactId).subscribe(contact => {
       this.contactForm.patchValue(contact);
     });
   }
-
+  //on cubmit navigate to contact list page
   onSubmit(): void {
     if (this.contactForm.valid) {
       this.contactService.updateContact(this.contactForm.value).subscribe(response => {

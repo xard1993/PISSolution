@@ -25,9 +25,6 @@ namespace PISSolution.Controllers
         public async Task<IActionResult> GetProperties([FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = null)
         {
             var query = await _propertyRepository.GetAllPropertiesAsync(pageIndex, pageSize, search);
-
-
-
             var totalCount = query.Count();
             var items = query.ToArray<Property>();
 
@@ -39,17 +36,15 @@ namespace PISSolution.Controllers
 
             return Ok(response);
         }
-        // GET: api/Property/5
+        // GET: api/Property/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Property>> GetProperty(Guid id)
         {
             var property = await _propertyRepository.GetPropertyByIdAsync(id);
-
             if (property == null)
             {
                 return NotFound();
             }
-
             return Ok(property);
         }
 
@@ -71,12 +66,10 @@ namespace PISSolution.Controllers
         }
 
 
-        // PUT: api/Property/5
+        // PUT: api/Property
         [HttpPut]
         public async Task<IActionResult> PutProperty([FromBody] Property property)
         {
-
-
             await _propertyRepository.UpdateAsync(property);
             return NoContent();
         }
@@ -85,10 +78,8 @@ namespace PISSolution.Controllers
         [HttpPut("multiple")]
         public async Task<IActionResult> PutMultipleProperties([FromBody] IEnumerable<Property> properties)
         {
-
             await _propertyRepository.UpdateRangeAsync(properties);
             return NoContent();
-
         }
 
      

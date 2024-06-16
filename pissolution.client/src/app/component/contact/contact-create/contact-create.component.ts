@@ -29,6 +29,7 @@ export class ContactCreateComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //on submit it will redirect back to contact list
   onSubmit(): void {
     if (this.contactForm.valid) {
       this.contactService.createContact(this.contactForm.value).subscribe(response => {

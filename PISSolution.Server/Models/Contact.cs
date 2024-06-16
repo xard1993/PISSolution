@@ -1,4 +1,6 @@
-﻿namespace PISSolution.Models
+﻿using System.Text.Json.Serialization;
+
+namespace PISSolution.Models
 {
     public class Contact
     {
@@ -8,7 +10,7 @@
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-
+        [JsonIgnore]
         public ICollection<Ownership>? Ownerships { get; set; }
     
     }
