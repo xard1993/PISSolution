@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <h1>Property List</h1>
   <input type="text" [(ngModel)]="search" placeholder="Search" />
   <button (click)="onSearch()">Search</button>
@@ -6,22 +6,47 @@
   <table>
     <thead>
       <tr>
-        <th>Property Name</th>
-        <th>Address</th>
-        <th>Price</th>
-        <th>Date of Registration</th>
+        <th>Property Name <br /> Sold At Price in USD</th>
+        <th>Asking Price</th>
+        <th>Owner</th>
+        <th>Date of Purchase</th>
+        <th>Sold At Price in EUR</th>
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="property-info">
       <tr *ngFor="let property of properties">
-        <td>{{ property.propertyName }}</td>
-        <td>{{ property.address }}</td>
-        <td>{{ property.price }}</td>
-        <td>{{ property.dateOfRegistration | date }}</td>
         <td>
+          {{ property.propertyName }}
+          <br />
+
+          <span *ngIf="(latestOwnerships[property.id]?.acquisitionPrice ?? 0) != 0 ; else noData">
+            {{ convertToUSD(latestOwnerships[property.id]?.acquisitionPrice ?? 0 ) }}
+          </span>
+
+
+        </td>
+        <td> {{ convertToEUR(property.price ) }} </td>
+        <td> {{ getOwnershipDetails(latestOwnerships[property.id])  }}</td>
+        <td>
+          <span *ngIf="(latestOwnerships[property.id]?.effectiveFrom ?? 0) != 0 ; else noData">
+            {{ latestOwnerships[property.id]?.effectiveFrom | date }}
+          </span>
+        </td>
+        <td>
+
+          <span *ngIf="(latestOwnerships[property.id]?.acquisitionPrice ?? 0) != 0 ; else noData">
+            {{ convertToEUR(latestOwnerships[property.id]?.acquisitionPrice ?? 0 ) }}
+          </span>
+
+          <ng-template #noData>
+            <span>No acquisition details</span>
+          </ng-template>
+        </td>
+        <td>
+
           <button (click)="editProperty(property)">Edit</button>
- 
+
           <button (click)="selectProperty(property)">Show Details</button>
         </td>
       </tr>
@@ -30,20 +55,28 @@
   <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
 
   <div *ngIf="selectedProperty">
-    <h2>Property Details: {{ selectedProperty.propertyName }}</h2>
+    <!-- Container for headers -->
+    <div class="header-container">
+      <h2>Property Details: {{ selectedProperty.propertyName }}</h2>
 
-    <h3>Ownerships</h3>
-    <div *ngIf="selectedProperty.ownerships && selectedProperty.ownerships.length > 0; else noOwnerships">
-      <div *ngFor="let ownership of selectedProperty.ownerships">
-        <p><strong>Owner:</strong> {{ ownership.contact.firstName }} {{ ownership.contact.lastName }}</p>
-        <p><strong>Effective From:</strong> {{ ownership.effectiveFrom | date }}</p>
-        <p><strong>Effective Till:</strong> {{ ownership.effectiveTill | date }}</p>
-        <p><strong>Acquisition Price:</strong> {{ ownership.acquisitionPrice }}</p>
-      </div>
     </div>
-    <ng-template #noOwnerships>
-      <p>No ownership records available.</p>
-    </ng-template>
+
+    <!-- Details and Ownership Records -->
+    <h2>Ownerships</h2>
+    <div class="details-container">
+
+      <div *ngIf="selectedProperty.ownerships && selectedProperty.ownerships.length > 0; else noOwnerships">
+        <div *ngFor="let ownership of selectedProperty.ownerships">
+          <p><strong>Owner:</strong> {{ ownership.contact.firstName }} {{ ownership.contact.lastName }}</p>
+          <p><strong>Effective From:</strong> {{ ownership.effectiveFrom | date }}</p>
+          <p><strong>Effective Till:</strong> {{ ownership.effectiveTill | date }}</p>
+          <p><strong>Acquisition Price:</strong> {{ ownership.acquisitionPrice }}</p>
+        </div>
+      </div>
+      <ng-template #noOwnerships>
+        <p>No ownership records available.</p>
+      </ng-template>
+    </div>
 
     <h3>Price Histories</h3>
     <div *ngIf="selectedProperty.priceHistories && selectedProperty.priceHistories.length > 0; else noPriceHistories">
@@ -56,4 +89,5 @@
       <p>No price history records available.</p>
     </ng-template>
   </div>
+
 </div>

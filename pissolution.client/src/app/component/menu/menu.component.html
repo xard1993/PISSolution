@@ -1,0 +1,14 @@
+<!-- menu.component.html -->
+<mat-toolbar color="primary" class="navbar">
+  <button mat-button [matMenuTriggerFor]="propertiesMenu">Properties</button>
+  <mat-menu #propertiesMenu="matMenu">
+    <button mat-menu-item [routerLink]="['/properties']">Property List</button>
+    <button mat-menu-item [routerLink]="['/properties/create']">Create Property</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="contactsMenu">Contacts</button>
+  <mat-menu #contactsMenu="matMenu">
+    <button mat-menu-item [routerLink]="['/contacts']">Contact List</button>
+    <button mat-menu-item [routerLink]="['/contacts/create']">Create Contact</button>
+  </mat-menu>
+</mat-toolbar>

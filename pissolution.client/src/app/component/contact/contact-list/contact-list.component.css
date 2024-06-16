@@ -1,0 +1,56 @@
+/* General table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: 'Arial', sans-serif; /* Ensures text is legible and stylish */
+}
+.container h1 {
+  font-size: 24px;
+  text-align: left;
+  color: #333;
+}
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f8f8;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Header row styling */
+th {
+  background-color: deepskyblue;
+  color: white;
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+/* Table row and cell styling */
+tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Light gray for odd rows for better readability */
+}
+
+td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd; /* Subtle border for each cell */
+}
+
+/* Hover effects for rows */
+tr:hover {
+  background-color: #e1f5fe; /* Light blue background on hover for interactivity */
+  cursor: pointer;
+}
+
+/* Adding a subtle shadow effect on hover to raise the row visually */
+tr:hover {
+  box-shadow: 0 8px 6px -6px #ccc;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  th, td {
+    padding: 10px; /* Slightly smaller padding for smaller screens */
+  }
+}

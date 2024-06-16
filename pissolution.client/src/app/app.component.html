@@ -1,12 +1,8 @@
-<div>
-  <h1>Welcome to Property Inventory System</h1>
-  <nav>
-    <a routerLink="/properties" routerLinkActive="active">Properties</a>
-    <a routerLink="/properties/create" routerLinkActive="active">Create Property</a>
-    
-    <a routerLink="/contacts" routerLinkActive="active">Contacts</a>
-    <a routerLink="/contacts/create" routerLinkActive="active">Create Contacts</a>
-   
-  </nav>
-  <router-outlet></router-outlet>
+<div class="container">
+  <div id="header-cont">
+    <h1>Property Inventory System</h1>
+    <app-menu></app-menu>
+  </div>
+
+  <router-outlet ></router-outlet>
 </div>

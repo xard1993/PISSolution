@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +16,8 @@ import { ContactEditComponent } from './component/contact/contact-edit/contact-e
 import { PropertyListComponent } from './component/property/property-list/property-list.component';
 import { PropertyEditComponent } from './component/property/property-edit/property-edit.component';
 import { PropertyCreateComponent } from './component/property/property-create/property-create.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MenuComponent } from './component/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +28,7 @@ import { PropertyCreateComponent } from './component/property/property-create/pr
     PropertyListComponent,
     PropertyCreateComponent,
     PropertyEditComponent,
+    MenuComponent,
 
   ],
   imports: [
@@ -30,9 +37,14 @@ import { PropertyCreateComponent } from './component/property/property-create/pr
     HttpClientModule,
     NgxPaginationModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+     MatToolbarModule,
+    MatButtonModule,
+    MatMenuModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

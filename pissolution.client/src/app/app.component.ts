@@ -14,17 +14,14 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
+ 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
    
   }
 
-  getForecasts() {
-   
-  }
 
-  title = 'pissolution.client';
+
+  title = 'Property Inventory Solution';
 }
